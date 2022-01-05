@@ -51,8 +51,10 @@ public class BaseContaController {
 	@PostMapping("/contas/saque/{numero}")
 	public void sacarValor(@RequestBody OperacaoSaldoDto sacarValor, @PathVariable int numero) {
 		BaseConta conta = listarPeloNumero(numero);
-		conta.setSaldo(conta.getSaldo() - sacarValor.getSaldo());
-		dao.save(conta);
+		if (conta.getSaldo() >= sacarValor.getSaldo()) {
+			conta.setSaldo(conta.getSaldo() - sacarValor.getSaldo());
+			dao.save(conta);
+		}
 	}
 
 }
